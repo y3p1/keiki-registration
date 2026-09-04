@@ -7,7 +7,11 @@
   "scripts": {
     "migrate": "tsx db/migrate.ts",
     "seed": "tsx db/seed.ts",
-    "db:setup": "npm run migrate && npm run seed"
+    "db:setup": "npm run migrate && npm run seed",
+    "test:concurrency": "tsx tests/concurrency.test.ts",
+    "test:idempotency": "tsx tests/idempotency.test.ts",
+    "test:release": "tsx tests/release.test.ts",
+    "test": "npm run test:concurrency && npm run test:idempotency && npm run test:release"
   },
   "dependencies": {
     "dotenv": "^16.4.5",

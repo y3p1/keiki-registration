@@ -12,4 +12,7 @@ const needsSsl = /supabase\.com|neon\.tech|sslmode=require/.test(connectionStrin
 export const pool = new Pool({
   connectionString,
   ssl: needsSsl ? { rejectUnauthorized: false } : undefined,
+  // Supabase's session-mode pooler caps clients at 15 on the free tier; stay under it.
+  // (At deploy we move the app to the transaction pooler on 6543, which allows far more.)
+  max: Number(process.env.PG_POOL_MAX ?? 12),
 });
