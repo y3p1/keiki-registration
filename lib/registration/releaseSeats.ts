@@ -1,4 +1,4 @@
-import type { Queryable } from '../../db/tx.ts';
+import type { Queryable } from '../../db/tx';
 
 // Guarded seat release — the single shape used by every "give a seat back" path
 // (hold expiry, checkout expired, cancel approval, drop).

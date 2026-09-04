@@ -1,8 +1,8 @@
 // Oversell test: fire N concurrent seat claims at the 12-seat class and assert
 // exactly 12 win and seats_taken lands on 12. This is the "50 parents, 12 seats,
 // 8am rush" scenario from the brief.
-import { pool } from '../db/pool.ts';
-import { claimSeat } from '../lib/registration/claimSeat.ts';
+import { pool } from '../db/pool';
+import { claimSeat } from '../lib/registration/claimSeat';
 
 const CLASS_ID = '22222222-2222-2222-2222-222222222222'; // seeded, capacity 12
 const N = 50;

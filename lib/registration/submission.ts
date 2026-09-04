@@ -1,4 +1,4 @@
-import type { Queryable } from '../../db/tx.ts';
+import type { Queryable } from '../../db/tx';
 
 export type SubmissionState = 'received' | 'checkout_created' | 'finalized' | 'failed';
 
@@ -54,6 +54,7 @@ export async function getSubmissionRetry(db: Queryable, id: string): Promise<Sub
     [id],
   );
   const row = rows[0];
+  if (!row) throw new Error(`submission ${id} not found`);
   return {
     submissionStatus: row.submission_status,
     checkoutUrl: row.checkout_url,

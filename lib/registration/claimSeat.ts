@@ -1,4 +1,4 @@
-import type { Queryable } from '../../db/tx.ts';
+import type { Queryable } from '../../db/tx';
 
 // The graded core: atomic, oversell-safe seat claim.
 //

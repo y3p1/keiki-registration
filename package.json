@@ -11,15 +11,26 @@
     "test:concurrency": "tsx tests/concurrency.test.ts",
     "test:idempotency": "tsx tests/idempotency.test.ts",
     "test:release": "tsx tests/release.test.ts",
-    "test": "npm run test:concurrency && npm run test:idempotency && npm run test:release"
+    "test:register": "tsx tests/register.test.ts",
+    "test": "npm run test:concurrency && npm run test:idempotency && npm run test:release && npm run test:register",
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
   },
   "dependencies": {
     "dotenv": "^16.4.5",
-    "pg": "^8.13.1"
+    "next": "^15.5.25",
+    "pg": "^8.13.1",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "stripe": "^22.6.1",
+    "zod": "^4.5.4"
   },
   "devDependencies": {
     "@types/node": "^22.10.0",
     "@types/pg": "^8.11.10",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.7",
     "tsx": "^4.19.2",
     "typescript": "^5.7.2"
   }

@@ -1,8 +1,8 @@
 // Idempotency test: the same submission UUID submitted twice must insert exactly
 // one row, and the second call must report created:false (so the caller returns
 // the existing checkout instead of charging again).
-import { pool } from '../db/pool.ts';
-import { insertSubmission } from '../lib/registration/submission.ts';
+import { pool } from '../db/pool';
+import { insertSubmission } from '../lib/registration/submission';
 
 const SUB_ID = '99999999-9999-9999-9999-999999999999';
 const EMAIL = 'idem-test@example.com';

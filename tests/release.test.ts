@@ -1,9 +1,9 @@
 // Release test: an expired pending hold is released exactly once — seats_taken
 // is decremented on the first sweep and NOT again on a second (double-release-
 // proof, the property that protects against a racing webhook + lazy expiry).
-import { pool } from '../db/pool.ts';
-import { claimSeat } from '../lib/registration/claimSeat.ts';
-import { releaseExpiredHolds } from '../lib/registration/releaseSeats.ts';
+import { pool } from '../db/pool';
+import { claimSeat } from '../lib/registration/claimSeat';
+import { releaseExpiredHolds } from '../lib/registration/releaseSeats';
 
 const CLASS_ID = '33333333-3333-3333-3333-333333333333'; // seeded, capacity 20
 const EMAIL = 'release-test@example.com';
