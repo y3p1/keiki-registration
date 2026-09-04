@@ -1,0 +1,25 @@
+﻿# --- dev_workflow scaffold (local only, do not commit) ---
+DEVELOPMENT_METHODOLOGY.md
+WORKFLOW.md
+DESIGN.md
+MARKETING_ASSETS.md
+TECH_STACK_DECISIONS.md
+PRINCIPLES.md
+SECURITY_AUDIT.md
+Pre-Deployment-Checklist.md
+LOGGING.md
+prompt-engineering-playbook.md
+EXTERNAL_SKILLS.md
+LEARNING.md
+README_TEMPLATE.md
+PRD.md
+TIMELINE.md
+TASKS.md
+SYSTEM_OVERVIEW.md
+
+# --- app ---
+node_modules/
+.env
+.next/
+dist/
+KEIKI_CODERS_TEST_CONTEXT.md

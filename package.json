@@ -1,0 +1,22 @@
+{
+  "name": "keiki-registration",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Keiki Coders parent registration system (take-home demo)",
+  "type": "module",
+  "scripts": {
+    "migrate": "tsx db/migrate.ts",
+    "seed": "tsx db/seed.ts",
+    "db:setup": "npm run migrate && npm run seed"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "pg": "^8.13.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "@types/pg": "^8.11.10",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  }
+}
