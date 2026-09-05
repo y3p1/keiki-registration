@@ -80,7 +80,7 @@ export default function RegisterPage() {
         window.location.href = data.checkoutUrl; // to Stripe Checkout
         return;
       }
-      if (res.status === 409 && data.classTitle) setError(`Sorry — "${data.classTitle}" is full.`);
+      if (res.status === 409 && data.classTitle) setError(`Sorry, "${data.classTitle}" is full.`);
       else setError(data.error ? `${data.error}` : 'Registration failed.');
     } catch {
       setError('Network error.');
@@ -98,12 +98,12 @@ export default function RegisterPage() {
         <div className="kc-split" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 48, alignItems: 'start' }}>
           {/* Hero */}
           <div style={{ paddingTop: 12 }}>
-            <span className="kc-eyebrow">🐢 Hawaii&apos;s #1 kids tech program</span>
+            <span className="kc-eyebrow">Hawaii&apos;s #1 kids tech program</span>
             <h1 style={{ fontSize: 'clamp(2.4rem,4vw,3.4rem)', fontWeight: 700, margin: '18px 0' }}>
               Unlock <span className="kc-hl">&quot;a-ha&quot;</span><br />learning moments
             </h1>
             <p className="kc-muted" style={{ fontSize: 19, maxWidth: '32ch' }}>
-              Sign your keiki up for after-school coding &amp; sports. Pick classes, pay once — you&apos;re done.
+              Sign your keiki up for after-school coding &amp; sports. Pick classes, pay once, and you&apos;re set for the semester.
             </p>
             <div style={{ display: 'flex', gap: 14, marginTop: 24, flexWrap: 'wrap' }}>
               <div className="kc-card" style={{ padding: '16px 20px' }}><strong className="kc-disp">10 weeks</strong><br /><small className="kc-muted">per class</small></div>
@@ -132,7 +132,7 @@ export default function RegisterPage() {
                       <input type="checkbox" disabled={full} checked={on} onChange={() => toggleClass(i, c.id)} />
                       <span>
                         <strong style={{ fontWeight: 600 }}>{c.title}</strong><br />
-                        <small className="kc-muted">{c.school} · {DAYS[c.day_of_week]} {c.start_time}–{c.end_time} · {c.weeks} wks · {money(c.price_cents, c.currency)}</small><br />
+                        <small className="kc-muted">{c.school} · {DAYS[c.day_of_week]} {c.start_time.slice(0, 5)}-{c.end_time.slice(0, 5)} · {c.weeks} wks · {money(c.price_cents, c.currency)}</small><br />
                         <span className={full ? 'kc-seats kc-seats--full' : 'kc-seats'}>{full ? 'FULL' : `${c.seats_left} seats left`}</span>
                       </span>
                     </label>

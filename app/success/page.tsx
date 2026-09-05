@@ -13,14 +13,14 @@ export default async function SuccessPage({
       <SiteHeader />
       <main className="kc-main" style={{ maxWidth: 620 }}>
         <div className="kc-card" style={{ textAlign: 'center', padding: 40 }}>
-          <span className="kc-eyebrow">🎉 Payment received</span>
+          <span className="kc-eyebrow">Payment received</span>
           <h1 style={{ fontSize: 'clamp(2rem,4vw,2.8rem)', fontWeight: 700, margin: '16px 0' }}>
             You&apos;re <span className="kc-hl">in!</span>
           </h1>
-          <p className="kc-muted">We&apos;re confirming your registration now — a confirmation email is on its way.</p>
-          <p className="kc-muted">Your spot is secured; finalization happens server-side, so you can safely close this page.</p>
+          <p className="kc-muted">We&apos;re confirming your registration now. A confirmation email is on its way.</p>
+          <p className="kc-muted">Your spot is secured. Finalization happens server-side, so you can safely close this page.</p>
           {session_id && <p style={{ color: 'var(--kc-muted)', fontSize: 12, marginTop: 8 }}>Ref: {session_id}</p>}
-          <p style={{ marginTop: 20 }}><a className="kc-btn" href="/my">View my registrations →</a></p>
+          <p style={{ marginTop: 20 }}><a className="kc-btn" href="/my">View my registrations</a></p>
         </div>
       </main>
     </>

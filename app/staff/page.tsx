@@ -17,7 +17,7 @@ export default async function StaffPage() {
       <>
         <SiteHeader />
         <main className="kc-main" style={{ maxWidth: 480 }}>
-          <span className="kc-eyebrow">🐢 Staff console</span>
+          <span className="kc-eyebrow">Staff console</span>
           <h1 style={{ fontSize: 'clamp(2rem,4vw,2.6rem)', fontWeight: 700, margin: '14px 0' }}>Staff <span className="kc-hl">sign-in</span></h1>
           <form action={loginStaff} className="kc-card" style={{ maxWidth: 420 }}>
             <input name="secret" type="password" placeholder="Staff secret" required className="kc-input" />
@@ -43,7 +43,7 @@ export default async function StaffPage() {
     <>
       <SiteHeader />
       <main className="kc-main" style={{ maxWidth: 900 }}>
-        <span className="kc-eyebrow">🐢 Staff console</span>
+        <span className="kc-eyebrow">Staff console</span>
         <h1 style={{ fontSize: 'clamp(1.8rem,3vw,2.4rem)', fontWeight: 700, margin: '12px 0 24px' }}>Operations</h1>
 
         <section className="kc-card" style={{ marginBottom: 24 }}>
@@ -52,7 +52,7 @@ export default async function StaffPage() {
           <div style={{ display: 'grid', gap: 8 }}>
             {pending.rows.map((r) => (
               <div key={r.id} className="kc-row kc-card kc-card--tint" style={{ padding: 12 }}>
-                <span><strong style={{ fontWeight: 600 }}>{r.child}</strong> — {r.class}</span>
+                <span><strong style={{ fontWeight: 600 }}>{r.child}</strong> <span className="kc-muted">{r.class}</span></span>
                 <form action={doApproveCancel}>
                   <input type="hidden" name="id" value={r.id} />
                   <button type="submit" className="kc-btn kc-btn--sm">Approve &amp; release seat</button>

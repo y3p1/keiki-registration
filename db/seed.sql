@@ -9,10 +9,10 @@ INSERT INTO class
   (id, school_id, title, day_of_week, start_time, end_time, start_date, weeks, capacity, price_cents) VALUES
   ('22222222-2222-2222-2222-222222222222',
    '11111111-1111-1111-1111-111111111111',
-   'Intro to Coding — Tuesdays', 2, '15:00', '16:00', '2026-09-08', 10, 12, 12000),
+   'Intro to Coding', 2, '15:00', '16:00', '2026-09-08', 10, 12, 12000),
   ('33333333-3333-3333-3333-333333333333',
    '11111111-1111-1111-1111-111111111111',
-   'Flag Football — Thursdays', 4, '15:30', '16:30', '2026-09-10', 10, 20, 9000)
+   'Flag Football', 4, '15:30', '16:30', '2026-09-10', 10, 20, 9000)
 ON CONFLICT (id) DO NOTHING;
 
 -- Materialize weeks worth of sessions per class (Week N = start_date + (N-1) weeks).

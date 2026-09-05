@@ -4,7 +4,7 @@ import { Logo } from './Logo';
 export function SiteHeader() {
   return (
     <header>
-      <div className="kc-ann">Enroll for Fall 2026 — registration closing soon 🌺</div>
+      <div className="kc-ann">Fall 2026 enrollment closes soon</div>
       <div className="kc-wrap">
         <nav className="kc-nav">
           <a className="kc-brand" href="/"><Logo /> Keiki Coders</a>

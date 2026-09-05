@@ -6,7 +6,7 @@ export default function Home() {
       <SiteHeader />
       <main className="kc-wrap" style={{ paddingTop: 40, paddingBottom: 72 }}>
         <div style={{ maxWidth: 640 }}>
-          <span className="kc-eyebrow">🐢 Hawaii&apos;s #1 kids tech program</span>
+          <span className="kc-eyebrow">Hawaii&apos;s #1 kids tech program</span>
           <h1 style={{ fontSize: 'clamp(2.6rem,6vw,4.5rem)', fontWeight: 700, margin: '18px 0' }}>
             Unlock <span className="kc-hl">&quot;a-ha&quot;</span><br />learning moments
           </h1>

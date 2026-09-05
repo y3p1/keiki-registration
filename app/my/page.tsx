@@ -22,7 +22,7 @@ export default async function MyPage() {
       <>
         <SiteHeader />
         <main className="kc-main" style={{ maxWidth: 560 }}>
-          <span className="kc-eyebrow">🐢 My registrations</span>
+          <span className="kc-eyebrow">My registrations</span>
           <h1 style={{ fontSize: 'clamp(2rem,4vw,2.8rem)', fontWeight: 700, margin: '14px 0' }}>
             See your <span className="kc-hl">keiki</span>
           </h1>
@@ -69,7 +69,7 @@ export default async function MyPage() {
             return (
               <div key={r.id} className="kc-card kc-row" style={{ padding: 18 }}>
                 <div>
-                  <strong className="kc-disp" style={{ fontSize: 18 }}>{r.child}</strong> — {r.class}<br />
+                  <strong className="kc-disp" style={{ fontSize: 18 }}>{r.child}</strong> <span className="kc-muted">{r.class}</span><br />
                   <small className="kc-muted">Starts {r.start_date}</small>{' '}
                   <span className={`kc-pill ${s.cls}`}>{s.label}</span>
                 </div>
