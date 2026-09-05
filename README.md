@@ -40,8 +40,12 @@ seat claim and the guarded seat release — stay visible.
 | `lib/registration/submission.ts` | Idempotency gate on the client-generated submission UUID + retry-info fetch. |
 | `lib/registration/parent.ts` | `upsertParent` (race-safe dedupe on email) + `findOrCreateChildren`. |
 | `lib/registration/register.ts` | **The service** — orchestrates the whole ordered flow (see below). Stripe is dependency-injected so the DB logic is testable without a key. |
+| `lib/registration/finalize.ts` | **Webhook handlers** — `finalizeCheckout` (paid → activate enrollments, idempotent via row-lock + `status='paid'` short-circuit, late-payer reclaim/refund) and `expireCheckout` (abandoned → release holds). |
+| `lib/notify.ts` | Best-effort confirmation notify — POSTs the finalized registration to the n8n webhook. Fail-soft: finalization stands even if n8n is down/unset. |
 | `lib/stripe.ts` | Real Stripe Checkout Session creator (`expires_at` = 31 min, under the 35-min hold). |
 | `app/api/register/route.ts` | Thin HTTP wrapper: zod-validate → `registerSubmission` → map result to status codes. |
+| `app/api/webhook/route.ts` | Stripe webhook — verifies signature (raw body), routes `checkout.session.completed` → finalize + n8n notify, `checkout.session.expired` → release. |
+| `n8n/confirmation-flow.json` | Importable n8n workflow: Webhook → Send Email. Attach SMTP creds, activate, put its Production URL in `N8N_WEBHOOK_URL`. |
 | `app/layout.tsx`, `app/page.tsx` | Minimal Next scaffold (real parent UI is TASK-06). |
 | `tests/*.test.ts` | Standalone `tsx` scripts (no framework) — see below. |
 
@@ -101,7 +105,16 @@ npm run test:concurrency # 50 concurrent claims on a 12-seat class -> exactly 12
 npm run test:idempotency # same submission UUID twice -> one row
 npm run test:release     # expired hold released exactly once (no double-decrement)
 npm run test:register    # happy multi-child · full-class rollback · duplicate submission
+npm run test:finalize    # webhook finalize (idempotent replay) · expire (release holds)
 ```
+
+### Live webhook testing (for the Loom)
+
+```bash
+npm run dev                                                        # terminal 1
+C:/Users/Asi/stripe-cli/stripe.exe listen --forward-to localhost:3000/api/webhook   # terminal 2 (keep running)
+```
+Then register a child in the app, pay on the Stripe page with test card `4242 4242 4242 4242`. Stripe fires `checkout.session.completed` → the CLI forwards it → the webhook finalizes (enrollments active, payment paid) → n8n sends the email. The CLI listener's signing secret must equal `STRIPE_WEBHOOK_SECRET` in `.env`.
 
 ---
 
@@ -110,6 +123,6 @@ npm run test:register    # happy multi-child · full-class rollback · duplicate
 - ✅ **TASK-01** — schema, migrations, seed (verified on Supabase).
 - ✅ **TASK-02** — model layer: atomic claim, idempotency, guarded release + tests.
 - ✅ **TASK-03** — registration service, `/api/register`, Stripe checkout (live checkout verified end-to-end).
-- ⬚ **TASK-04** — Stripe webhook finalize + n8n confirmation email.
+- ✅ **TASK-04** — webhook finalize (idempotent) + expire release + n8n notify. Signature path verified live via Stripe CLI; DB logic via tests. _n8n flow provided (`n8n/confirmation-flow.json`) — import + set `N8N_WEBHOOK_URL` to enable the actual email._
 - ⬚ **TASK-05** — session cancel/reschedule + cancellation-request flow.
 - ⬚ **TASK-06** — parent/staff UI + minimal auth.

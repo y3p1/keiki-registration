@@ -1,0 +1,44 @@
+{
+  "name": "Keiki — Registration Confirmation Email",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "keiki-confirmation",
+        "responseMode": "onReceived",
+        "options": {}
+      },
+      "id": "webhook-trigger",
+      "name": "Webhook (from /api/webhook)",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [260, 300],
+      "webhookId": "keiki-confirmation"
+    },
+    {
+      "parameters": {
+        "fromEmail": "registrations@keikicoders.example",
+        "toEmail": "={{ $json.body.parent_email }}",
+        "subject": "You're registered! — Keiki Coders",
+        "emailFormat": "text",
+        "text": "=Hi {{ $json.body.parent_name }},\n\nThanks for registering. Here's what you signed up for:\n\n{{ $json.body.items.map(i => '• ' + i.child + ' — ' + i.class).join('\\n') }}\n\nTotal paid: {{ ($json.body.amount_cents / 100).toFixed(2) }} {{ $json.body.currency.toUpperCase() }}\n\nSee you in class!\nKeiki Coders",
+        "options": {}
+      },
+      "id": "send-email",
+      "name": "Send Confirmation Email",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2,
+      "position": [520, 300],
+      "credentials": {
+        "smtp": { "id": "REPLACE_WITH_YOUR_SMTP_CREDENTIAL_ID", "name": "SMTP" }
+      }
+    }
+  ],
+  "connections": {
+    "Webhook (from /api/webhook)": {
+      "main": [[{ "node": "Send Confirmation Email", "type": "main", "index": 0 }]]
+    }
+  },
+  "settings": {},
+  "_readme": "Import into n8n (Workflows -> Import from File). Attach an SMTP credential to the Send node, activate the workflow, then copy the node's Production Webhook URL into .env as N8N_WEBHOOK_URL. The app POSTs { parent_name, parent_email, amount_cents, currency, items:[{child,class}] } — fields are read from $json.body."
+}

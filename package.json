@@ -12,7 +12,8 @@
     "test:idempotency": "tsx tests/idempotency.test.ts",
     "test:release": "tsx tests/release.test.ts",
     "test:register": "tsx tests/register.test.ts",
-    "test": "npm run test:concurrency && npm run test:idempotency && npm run test:release && npm run test:register",
+    "test:finalize": "tsx tests/finalize.test.ts",
+    "test": "npm run test:concurrency && npm run test:idempotency && npm run test:release && npm run test:register && npm run test:finalize",
     "dev": "next dev",
     "build": "next build",
     "start": "next start"
