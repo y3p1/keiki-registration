@@ -42,6 +42,11 @@ seat claim and the guarded seat release — stay visible.
 | `lib/registration/register.ts` | **The service** — orchestrates the whole ordered flow (see below). Stripe is dependency-injected so the DB logic is testable without a key. |
 | `lib/registration/finalize.ts` | **Webhook handlers** — `finalizeCheckout` (paid → activate enrollments, idempotent via row-lock + `status='paid'` short-circuit, late-payer reclaim/refund) and `expireCheckout` (abandoned → release holds). |
 | `lib/notify.ts` | Best-effort confirmation notify — POSTs the finalized registration to the n8n webhook. Fail-soft: finalization stands even if n8n is down/unset. |
+| `lib/registration/cancellation.ts` | `requestCancellation` (parent: active → cancel_requested) + `approveCancellation` (staff: → canceled + seat release, double-approve-proof). |
+| `lib/registration/session.ts` | `cancelSession` / `rescheduleSession` — per-session exceptions; touch one row, leave the class + other weeks intact. |
+| `app/api/enrollments/[id]/cancel/route.ts` | Parent cancellation request. |
+| `app/api/enrollments/[id]/approve-cancel/route.ts` | Staff approve → seat released. |
+| `app/api/sessions/[id]/route.ts` | Staff PATCH: `cancel` or `reschedule` a session. |
 | `lib/stripe.ts` | Real Stripe Checkout Session creator (`expires_at` = 31 min, under the 35-min hold). |
 | `app/api/register/route.ts` | Thin HTTP wrapper: zod-validate → `registerSubmission` → map result to status codes. |
 | `app/api/webhook/route.ts` | Stripe webhook — verifies signature (raw body), routes `checkout.session.completed` → finalize + n8n notify, `checkout.session.expired` → release. |
@@ -106,6 +111,7 @@ npm run test:idempotency # same submission UUID twice -> one row
 npm run test:release     # expired hold released exactly once (no double-decrement)
 npm run test:register    # happy multi-child · full-class rollback · duplicate submission
 npm run test:finalize    # webhook finalize (idempotent replay) · expire (release holds)
+npm run test:cancellation # request→approve (seat released once) · guards · session cancel/reschedule
 ```
 
 ### Live webhook testing (for the Loom)
@@ -123,6 +129,6 @@ Then register a child in the app, pay on the Stripe page with test card `4242 42
 - ✅ **TASK-01** — schema, migrations, seed (verified on Supabase).
 - ✅ **TASK-02** — model layer: atomic claim, idempotency, guarded release + tests.
 - ✅ **TASK-03** — registration service, `/api/register`, Stripe checkout (live checkout verified end-to-end).
-- ✅ **TASK-04** — webhook finalize (idempotent) + expire release + n8n notify. Signature path verified live via Stripe CLI; DB logic via tests. _n8n flow provided (`n8n/confirmation-flow.json`) — import + set `N8N_WEBHOOK_URL` to enable the actual email._
-- ⬚ **TASK-05** — session cancel/reschedule + cancellation-request flow.
-- ⬚ **TASK-06** — parent/staff UI + minimal auth.
+- ✅ **TASK-04** — webhook finalize (idempotent) + expire release + n8n notify. Signature path verified live via Stripe CLI; DB logic via tests. n8n Cloud flow live (email sends).
+- ✅ **TASK-05** — session cancel/reschedule + cancellation request/approve flow (API + tests).
+- ⬚ **TASK-06** — parent/staff UI + minimal auth + success/cancel pages.
