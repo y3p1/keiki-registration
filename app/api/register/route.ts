@@ -4,8 +4,11 @@ import { pool } from '@/db/pool';
 import { registerSubmission, RegisterError } from '@/lib/registration/register';
 import { createStripeCheckout } from '@/lib/stripe';
 
+// z.guid() validates UUID shape without RFC version pedantry — class ids are
+// opaque identifiers (the demo seed uses fixed non-version UUIDs), and a
+// client-generated submission id may be any UUID variant.
 const schema = z.object({
-  submissionId: z.uuid(),
+  submissionId: z.guid(),
   parent: z.object({
     email: z.email(),
     fullName: z.string().min(1),
@@ -16,7 +19,7 @@ const schema = z.object({
       z.object({
         fullName: z.string().min(1),
         dateOfBirth: z.string().nullish(),
-        classIds: z.array(z.uuid()).min(1),
+        classIds: z.array(z.guid()).min(1),
       }),
     )
     .min(1),
