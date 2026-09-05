@@ -51,7 +51,14 @@ seat claim and the guarded seat release — stay visible.
 | `app/api/register/route.ts` | Thin HTTP wrapper: zod-validate → `registerSubmission` → map result to status codes. |
 | `app/api/webhook/route.ts` | Stripe webhook — verifies signature (raw body), routes `checkout.session.completed` → finalize + n8n notify, `checkout.session.expired` → release. |
 | `n8n/confirmation-flow.json` | Importable n8n workflow: Webhook → Send Email. Attach SMTP creds, activate, put its Production URL in `N8N_WEBHOOK_URL`. |
-| `app/layout.tsx`, `app/page.tsx` | Minimal Next scaffold (real parent UI is TASK-06). |
+| `app/layout.tsx`, `app/page.tsx` | Root layout + home page (links to the three flows). |
+| `app/register/page.tsx` | Parent registration form (client) — multi-child, multi-class, generates the submission UUID, POSTs `/api/register`, redirects to Stripe. |
+| `app/my/page.tsx` | Parent's registrations (server) — email login, live status, request-cancel button. |
+| `app/staff/page.tsx` | Staff view (server) — secret gate, approve cancellations, cancel/reschedule sessions. |
+| `app/success/page.tsx`, `app/cancel/page.tsx` | Stripe redirect landing pages (`/success` does not finalize — the webhook does). |
+| `app/actions.ts` | Server Actions for logins + mutations (reuse the tested lib functions; parent cancel enforces ownership). |
+| `app/api/classes/route.ts` | Open classes + seats-left, feeds the form. |
+| `lib/auth.ts` | Minimal v1 auth — HMAC-signed cookies (parent email / staff gate). |
 | `tests/*.test.ts` | Standalone `tsx` scripts (no framework) — see below. |
 
 ---
@@ -131,4 +138,6 @@ Then register a child in the app, pay on the Stripe page with test card `4242 42
 - ✅ **TASK-03** — registration service, `/api/register`, Stripe checkout (live checkout verified end-to-end).
 - ✅ **TASK-04** — webhook finalize (idempotent) + expire release + n8n notify. Signature path verified live via Stripe CLI; DB logic via tests. n8n Cloud flow live (email sends).
 - ✅ **TASK-05** — session cancel/reschedule + cancellation request/approve flow (API + tests).
-- ⬚ **TASK-06** — parent/staff UI + minimal auth + success/cancel pages.
+- ✅ **TASK-06** — parent registration form, my-registrations, staff view, success/cancel pages, minimal HMAC-cookie auth. All routes render (smoke-tested).
+
+**The app is feature-complete.** Remaining: your end-to-end QA + the Loom recording.
