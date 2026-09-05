@@ -1,16 +1,17 @@
 import { pool } from '@/db/pool';
 import { getParentEmail } from '@/lib/auth';
 import { loginParent, logoutParent, doRequestCancel } from '../actions';
+import { SiteHeader } from '../_components/SiteHeader';
 
 export const dynamic = 'force-dynamic';
 
-const STATUS_LABEL: Record<string, string> = {
-  pending: 'Pending payment',
-  active: 'Active',
-  cancel_requested: 'Cancellation requested',
-  canceled: 'Canceled',
-  dropped: 'Dropped',
-  expired: 'Expired (unpaid)',
+const STATUS: Record<string, { label: string; cls: string }> = {
+  pending: { label: 'Pending payment', cls: 'kc-pill--pending' },
+  active: { label: 'Active', cls: 'kc-pill--active' },
+  cancel_requested: { label: 'Cancellation requested', cls: 'kc-pill--requested' },
+  canceled: { label: 'Canceled', cls: 'kc-pill--canceled' },
+  dropped: { label: 'Dropped', cls: 'kc-pill--dropped' },
+  expired: { label: 'Expired (unpaid)', cls: 'kc-pill--expired' },
 };
 
 export default async function MyPage() {
@@ -18,16 +19,21 @@ export default async function MyPage() {
 
   if (!email) {
     return (
-      <main style={{ fontFamily: 'system-ui', maxWidth: 560, margin: '3rem auto', padding: '0 1rem' }}>
-        <h1>My Registrations</h1>
-        <p><a href="/">← Home</a></p>
-        <p>Enter the email you registered with:</p>
-        <form action={loginParent}>
-          <input name="email" type="email" placeholder="you@example.com" required style={{ padding: 8, width: '100%', margin: '8px 0' }} />
-          <button type="submit" style={{ padding: '8px 14px' }}>View my registrations</button>
-        </form>
-        <p style={{ color: '#888', fontSize: 13 }}>Demo auth: email-only lookup (no password). Real accounts are a v2 item.</p>
-      </main>
+      <>
+        <SiteHeader />
+        <main className="kc-main" style={{ maxWidth: 560 }}>
+          <span className="kc-eyebrow">🐢 My registrations</span>
+          <h1 style={{ fontSize: 'clamp(2rem,4vw,2.8rem)', fontWeight: 700, margin: '14px 0' }}>
+            See your <span className="kc-hl">keiki</span>
+          </h1>
+          <p className="kc-muted" style={{ marginBottom: 16 }}>Enter the email you registered with.</p>
+          <form action={loginParent} className="kc-card" style={{ maxWidth: 440 }}>
+            <input name="email" type="email" placeholder="you@example.com" required className="kc-input" />
+            <button type="submit" className="kc-btn" style={{ marginTop: 8 }}>View my registrations</button>
+          </form>
+          <p className="kc-muted" style={{ fontSize: 13, marginTop: 12 }}>Demo auth: email-only lookup (no password). Real accounts are a v2 item.</p>
+        </main>
+      </>
     );
   }
 
@@ -43,28 +49,41 @@ export default async function MyPage() {
   );
 
   return (
-    <main style={{ fontFamily: 'system-ui', maxWidth: 720, margin: '3rem auto', padding: '0 1rem' }}>
-      <h1>My Registrations</h1>
-      <p><a href="/">← Home</a> · <a href="/register">Register another</a> · signed in as <strong>{email}</strong>{' '}
-        <form action={logoutParent} style={{ display: 'inline' }}><button style={{ padding: '2px 8px' }}>sign out</button></form>
-      </p>
-
-      {rows.length === 0 && <p>No registrations yet. <a href="/register">Register now.</a></p>}
-
-      {rows.map((r) => (
-        <div key={r.id} style={{ border: '1px solid #ccc', borderRadius: 8, padding: 12, marginBottom: 10, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <div>
-            <strong>{r.child}</strong> — {r.class}<br />
-            <small>Starts {r.start_date} · <em>{STATUS_LABEL[r.status] ?? r.status}</em></small>
-          </div>
-          {r.status === 'active' && (
-            <form action={doRequestCancel}>
-              <input type="hidden" name="id" value={r.id} />
-              <button type="submit" style={{ padding: '6px 10px' }}>Request cancellation</button>
-            </form>
-          )}
+    <>
+      <SiteHeader />
+      <main className="kc-main" style={{ maxWidth: 760 }}>
+        <div className="kc-row" style={{ flexWrap: 'wrap' }}>
+          <h1 style={{ fontSize: 'clamp(1.8rem,3vw,2.4rem)', fontWeight: 700 }}>My Registrations</h1>
+          <span className="kc-muted" style={{ fontSize: 14 }}>
+            {email}{' '}
+            <form action={logoutParent} style={{ display: 'inline' }}><button className="kc-btn kc-btn--sec kc-btn--sm">sign out</button></form>
+          </span>
         </div>
-      ))}
-    </main>
+        <p style={{ margin: '6px 0 20px' }}><a className="kc-link" href="/register">+ Register another child</a></p>
+
+        {rows.length === 0 && <p className="kc-muted">No registrations yet. <a href="/register">Register now.</a></p>}
+
+        <div style={{ display: 'grid', gap: 12 }}>
+          {rows.map((r) => {
+            const s = STATUS[r.status] ?? { label: r.status, cls: 'kc-pill--pending' };
+            return (
+              <div key={r.id} className="kc-card kc-row" style={{ padding: 18 }}>
+                <div>
+                  <strong className="kc-disp" style={{ fontSize: 18 }}>{r.child}</strong> — {r.class}<br />
+                  <small className="kc-muted">Starts {r.start_date}</small>{' '}
+                  <span className={`kc-pill ${s.cls}`}>{s.label}</span>
+                </div>
+                {r.status === 'active' && (
+                  <form action={doRequestCancel}>
+                    <input type="hidden" name="id" value={r.id} />
+                    <button type="submit" className="kc-btn kc-btn--sec kc-btn--sm">Request cancellation</button>
+                  </form>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </main>
+    </>
   );
 }
