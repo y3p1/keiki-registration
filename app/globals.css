@@ -107,19 +107,8 @@ a:hover { color: var(--kc-em7); }
 .kc-muted { color: var(--kc-muted); }
 .kc-row { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
 
-/* Motion — grafted scroll reveal (expo-out) */
-.kc-reveal { opacity: 0; transform: translateY(16px); filter: blur(2px); transition: opacity var(--kc-dur) var(--kc-ease), transform var(--kc-dur) var(--kc-ease), filter var(--kc-dur) ease-out; }
-.kc-reveal.is-visible { opacity: 1; transform: none; filter: none; }
-.kc-stagger > * { opacity: 0; transform: translateY(12px); transition: opacity var(--kc-dur) var(--kc-ease), transform var(--kc-dur) var(--kc-ease); }
-.kc-stagger.is-visible > * { opacity: 1; transform: none; }
-.kc-stagger.is-visible > *:nth-child(2){transition-delay:70ms}
-.kc-stagger.is-visible > *:nth-child(3){transition-delay:140ms}
-.kc-stagger.is-visible > *:nth-child(4){transition-delay:210ms}
-.kc-stagger.is-visible > *:nth-child(5){transition-delay:280ms}
-
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
-  .kc-reveal, .kc-stagger > * { opacity: 1 !important; transform: none !important; filter: none !important; }
 }
 
 @media (max-width: 860px) {
