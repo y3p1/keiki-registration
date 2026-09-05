@@ -81,8 +81,8 @@ a:hover { color: var(--kc-em7); }
 /* Status pills */
 .kc-pill { display: inline-block; border-radius: var(--kc-r-pill); padding: 4px 12px; font-weight: 600; font-size: 12px; font-family: var(--kc-body); }
 .kc-pill--active { background: var(--kc-emtint); color: var(--kc-em7); }
-.kc-pill--pending { background: var(--kc-cream); color: #8a6d1f; }
-.kc-pill--requested { background: #FFF4D6; color: #8a6d1f; }
+.kc-pill--pending { background: var(--kc-cream); color: #5a4300; }
+.kc-pill--requested { background: #FFF4D6; color: #5a4300; }
 .kc-pill--canceled, .kc-pill--expired, .kc-pill--dropped { background: #EEF1F0; color: var(--kc-muted); }
 
 /* Total bar */

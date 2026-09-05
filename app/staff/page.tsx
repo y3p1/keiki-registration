@@ -20,7 +20,7 @@ export default async function StaffPage() {
           <span className="kc-eyebrow">Staff console</span>
           <h1 style={{ fontSize: 'clamp(2rem,4vw,2.6rem)', fontWeight: 700, margin: '14px 0' }}>Staff <span className="kc-hl">sign-in</span></h1>
           <form action={loginStaff} className="kc-card" style={{ maxWidth: 420 }}>
-            <input name="secret" type="password" placeholder="Staff secret" required className="kc-input" />
+            <input name="secret" type="password" placeholder="Staff secret" aria-label="Staff secret" required className="kc-input" />
             <button type="submit" className="kc-btn" style={{ marginTop: 8 }}>Enter</button>
           </form>
           <p className="kc-muted" style={{ fontSize: 13, marginTop: 12 }}>Demo gate: shared secret (STAFF_SECRET). Real roles are a v2 item.</p>
@@ -83,7 +83,7 @@ export default async function StaffPage() {
                           </form>
                           <form action={doRescheduleSession} style={{ display: 'flex', gap: 4, alignItems: 'center' }}>
                             <input type="hidden" name="id" value={s.id} />
-                            <input name="scheduledDate" type="date" required className="kc-input" style={{ margin: 0, padding: '6px 8px', width: 150 }} />
+                            <input name="scheduledDate" type="date" required aria-label={`New date for ${s.title} week ${s.week_number}`} className="kc-input" style={{ margin: 0, padding: '6px 8px', width: 150 }} />
                             <button type="submit" className="kc-btn kc-btn--sm">Reschedule</button>
                           </form>
                         </div>

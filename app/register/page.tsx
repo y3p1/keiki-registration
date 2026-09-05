@@ -113,16 +113,16 @@ export default function RegisterPage() {
 
           {/* Form */}
           <div className="kc-card" style={{ padding: 30 }}>
-            <p className="kc-label">Parent</p>
-            <input className="kc-input" placeholder="Full name" value={parent.fullName} onChange={(e) => setParent({ ...parent, fullName: e.target.value })} />
-            <input className="kc-input" placeholder="Email" type="email" value={parent.email} onChange={(e) => setParent({ ...parent, email: e.target.value })} />
-            <input className="kc-input" placeholder="Phone (optional)" value={parent.phone} onChange={(e) => setParent({ ...parent, phone: e.target.value })} />
+            <p className="kc-label" id="parent-label">Parent</p>
+            <input className="kc-input" placeholder="Full name" aria-label="Parent full name" value={parent.fullName} onChange={(e) => setParent({ ...parent, fullName: e.target.value })} />
+            <input className="kc-input" placeholder="Email" aria-label="Parent email" type="email" value={parent.email} onChange={(e) => setParent({ ...parent, email: e.target.value })} />
+            <input className="kc-input" placeholder="Phone (optional)" aria-label="Parent phone, optional" value={parent.phone} onChange={(e) => setParent({ ...parent, phone: e.target.value })} />
 
             {children.map((child, i) => (
               <div key={i} style={{ marginTop: 18 }}>
                 <p className="kc-label">Child {i + 1}</p>
-                <input className="kc-input" placeholder="Child full name" value={child.fullName} onChange={(e) => setChild(i, { fullName: e.target.value })} />
-                <input className="kc-input" type="date" value={child.dateOfBirth} onChange={(e) => setChild(i, { dateOfBirth: e.target.value })} style={{ maxWidth: 220 }} />
+                <input className="kc-input" placeholder="Child full name" aria-label={`Child ${i + 1} full name`} value={child.fullName} onChange={(e) => setChild(i, { fullName: e.target.value })} />
+                <input className="kc-input" type="date" aria-label={`Child ${i + 1} date of birth`} value={child.dateOfBirth} onChange={(e) => setChild(i, { dateOfBirth: e.target.value })} style={{ maxWidth: 220 }} />
                 <p style={{ margin: '10px 0 2px', fontWeight: 600 }}>Classes</p>
                 {classes.map((c) => {
                   const on = child.classIds.includes(c.id);

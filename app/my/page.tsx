@@ -28,7 +28,7 @@ export default async function MyPage() {
           </h1>
           <p className="kc-muted" style={{ marginBottom: 16 }}>Enter the email you registered with.</p>
           <form action={loginParent} className="kc-card" style={{ maxWidth: 440 }}>
-            <input name="email" type="email" placeholder="you@example.com" required className="kc-input" />
+            <input name="email" type="email" placeholder="you@example.com" aria-label="Your email address" required className="kc-input" />
             <button type="submit" className="kc-btn" style={{ marginTop: 8 }}>View my registrations</button>
           </form>
           <p className="kc-muted" style={{ fontSize: 13, marginTop: 12 }}>Demo auth: email-only lookup (no password). Real accounts are a v2 item.</p>
