@@ -41,6 +41,9 @@ export default function RegisterPage() {
   function setChild(i: number, patch: Partial<ChildForm>) {
     setChildren((cs) => cs.map((c, idx) => (idx === i ? { ...c, ...patch } : c)));
   }
+  function removeChild(i: number) {
+    setChildren((cs) => cs.filter((_, idx) => idx !== i));
+  }
   function toggleClass(i: number, classId: string) {
     setChildren((cs) =>
       cs.map((c, idx) => {
@@ -120,7 +123,14 @@ export default function RegisterPage() {
 
             {children.map((child, i) => (
               <div key={i} style={{ marginTop: 18 }}>
-                <p className="kc-label">Child {i + 1}</p>
+                <div className="kc-row" style={{ marginBottom: 2 }}>
+                  <p className="kc-label" style={{ margin: 0 }}>Child {i + 1}</p>
+                  {children.length > 1 && (
+                    <button type="button" className="kc-btn kc-btn--sec kc-btn--sm" onClick={() => removeChild(i)} aria-label={`Remove child ${i + 1}`}>
+                      Remove
+                    </button>
+                  )}
+                </div>
                 <input className="kc-input" placeholder="Child full name" aria-label={`Child ${i + 1} full name`} value={child.fullName} onChange={(e) => setChild(i, { fullName: e.target.value })} />
                 <input className="kc-input" type="date" aria-label={`Child ${i + 1} date of birth`} value={child.dateOfBirth} onChange={(e) => setChild(i, { dateOfBirth: e.target.value })} style={{ maxWidth: 220 }} />
                 <p style={{ margin: '10px 0 2px', fontWeight: 600 }}>Classes</p>
