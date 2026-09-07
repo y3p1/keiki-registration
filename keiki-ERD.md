@@ -20,6 +20,10 @@
 
 ## 1. Entity-Relationship Diagram
 
+![Keiki Coders ERD](./keiki-ERD.png)
+
+<details><summary>Mermaid source</summary>
+
 ```mermaid
 erDiagram
     SCHOOL ||--o{ CLASS : "hosts"
@@ -121,6 +125,8 @@ erDiagram
         timestamptz created_at
     }
 ```
+
+</details>
 
 ---
 

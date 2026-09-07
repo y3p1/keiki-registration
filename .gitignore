@@ -26,3 +26,6 @@ KEIKI_CODERS_TEST_CONTEXT.md
 
 # stray screenshots / scratch images
 *.png
+!keiki-ERD.png
+DEMO_SCRIPT.md
+DEMO_SCRIPT.pdf
