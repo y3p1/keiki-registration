@@ -1,7 +1,5 @@
 import type { Queryable } from '../../db/tx';
 
-// The graded core: atomic, oversell-safe seat claim.
-//
 // Postgres serializes the row-level write, so N concurrent callers against a
 // K-seat class yield exactly K winners. Fail-closed: a full class returns null
 // and the caller aborts the whole submission. No lock is held across the slow

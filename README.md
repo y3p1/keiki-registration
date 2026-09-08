@@ -5,14 +5,14 @@ Stripe. Built to demonstrate **data-modeling, concurrency safety, idempotency,
 and partial-failure handling** — not feature breadth.
 
 - **Design docs:** [`keiki-ERD.md`](./keiki-ERD.md) (data model + rationale). Planning docs (PRD, tasks, timeline) live in `workflow/` (local only).
-- **Stack:** Next.js 15 (App Router) · TypeScript · Supabase Postgres 16 (raw SQL, no ORM) · Stripe Checkout · n8n (confirmation email, later task).
+- **Stack:** Next.js 15 (App Router) · TypeScript · Supabase Postgres 16 (raw SQL, no ORM) · Stripe Checkout · n8n (confirmation email).
 
 ---
 
 ## How the pieces fit
 
 ```
-Parent form ─▶ POST /api/register ─┐
+Parent form ─> POST /api/register ─┐
                                    │  (1) upsert parent   (2) submission idempotency gate
                                    │  (3) TXN: lazy-expire holds ▸ atomic seat claim ▸
                                    │       pending payment + enrollments  (all-or-nothing)
